@@ -5,7 +5,6 @@ on:
     push:
         branches:
             - main
-            - dev
 
 # Environment variables available to all jobs and steps in this workflow
 env:
