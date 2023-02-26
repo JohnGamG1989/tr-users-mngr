@@ -18,6 +18,7 @@ on:
     push:
         branches:
             - main
+            - dev
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -38,15 +39,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Configure Workload Identity Federation and generate an access token.
-    # - id: 'auth'
-    #   name: 'Authenticate to Google Cloud'
-    #   uses: 'google-github-actions/auth@v1'
-    #   with:
-    #     workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-    #     service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
-
-    # Alternative option - authentication via credentials json
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
