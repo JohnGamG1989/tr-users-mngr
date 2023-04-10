@@ -1,6 +1,6 @@
 
 export default {
-    PORT: 8085,
+    PORT: 8080,
     apiPath: '',
     databaseHost: '34.134.59.167',
     databasePass: 'root',

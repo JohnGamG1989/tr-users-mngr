@@ -1,63 +1,63 @@
 
-name: Build and Deploy to Cloud Run
+# name: Build and Deploy to Cloud Run
 
-on:
-    push:
-        branches:
-            - main
+# on:
+#     push:
+#         branches:
+#             - main
 
-# Environment variables available to all jobs and steps in this workflow
-env:
-    PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-    RUN_REGION: us-central1
-    SERVICE_NAME: tr-users-mngr
-    PORT: 8081
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+# # Environment variables available to all jobs and steps in this workflow
+# env:
+#     PROJECT_ID: ${{ secrets.RUN_PROJECT }}
+#     RUN_REGION: us-central1
+#     SERVICE_NAME: tr-users-mngr
+#     PORT: 8081
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
 
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+#     # Add "id-token" with the intended permissions.
+#     permissions:
+#       contents: 'read'
+#       id-token: 'write'
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v3
 
-    - id: 'auth'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
+#     - id: 'auth'
+#       uses: 'google-github-actions/auth@v1'
+#       with:
+#         credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'
 
-    # Setup gcloud CLI
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
+#     # Setup gcloud CLI
+#     - name: Set up Cloud SDK
+#       uses: google-github-actions/setup-gcloud@v1
 
-    - name: Authorize Docker push
-      run: gcloud auth configure-docker
+#     - name: Authorize Docker push
+#       run: gcloud auth configure-docker
 
-      # Install Skaffold
-    - name: Install Skaffold
-      run: |
-        curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
-        sudo install skaffold /usr/local/bin/
-        skaffold version
+#       # Install Skaffold
+#     - name: Install Skaffold
+#       run: |
+#         curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+#         sudo install skaffold /usr/local/bin/
+#         skaffold version
 
-    - name: Build and Push Container
-      run: |-
-        skaffold init --artifact '{"builder":"Docker", "payload":{"path":"Dockerfile"}, "image":"gcr.io/turepuesto/tr-users-mngr"}' --skip-deploy --filename ./skaffold.yaml  --force
-        skaffold build --filename ./skaffold.yaml --kube-context='' --platform=linux/amd64
-    - name: Deploy to Cloud Run
-      run: |-
-        gcloud run deploy ${{ env.SERVICE_NAME }} \
-          --project ${{env.PROJECT_ID}} \
-          --image gcr.io/turepuesto/tr-users-mngr \
-          --region us-central1 \
-          --port ${{env.PORT }} \
-          --platform "managed" \
-          --memory 256Mi \
-          --concurrency 80 \
-          --timeout 300 \
-          --service-account 878402794954-compute@developer.gserviceaccount.com \
-          --clear-env-vars
+#     - name: Build and Push Container
+#       run: |-
+#         skaffold init --artifact '{"builder":"Docker", "payload":{"path":"Dockerfile"}, "image":"gcr.io/turepuesto/tr-users-mngr"}' --skip-deploy --filename ./skaffold.yaml  --force
+#         skaffold build --filename ./skaffold.yaml --kube-context='' --platform=linux/amd64
+#     - name: Deploy to Cloud Run
+#       run: |-
+#         gcloud run deploy ${{ env.SERVICE_NAME }} \
+#           --project ${{env.PROJECT_ID}} \
+#           --image gcr.io/turepuesto/tr-users-mngr \
+#           --region us-central1 \
+#           --port ${{env.PORT }} \
+#           --platform "managed" \
+#           --memory 256Mi \
+#           --concurrency 80 \
+#           --timeout 300 \
+#           --service-account 878402794954-compute@developer.gserviceaccount.com \
+#           --clear-env-vars
