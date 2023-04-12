@@ -8,6 +8,8 @@ const actuator = require("express-actuator");
 const path_1 = __importDefault(require("path"));
 const config_1 = __importDefault(require("./config"));
 const UserController_1 = __importDefault(require("./controllers/UserController"));
+const BuyerController_1 = __importDefault(require("./controllers/BuyerController"));
+const SellerController_1 = __importDefault(require("./controllers/SellerController"));
 const app = (0, express_1.default)();
 const apiPath = config_1.default.apiPath;
 const fullApiPath = `${apiPath}/V1/`;
@@ -27,6 +29,6 @@ app.use((_, res, next) => {
 app.use(actuator({
     basePath: '/management',
 }));
-app.use(fullApiPath, UserController_1.default);
+app.use(fullApiPath, UserController_1.default, BuyerController_1.default, SellerController_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map

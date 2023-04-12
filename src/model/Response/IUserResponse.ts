@@ -13,4 +13,5 @@ export interface IUserResponse {
         rangoBusqueda:string;
         PerfilComprador:number;
         PerfilVendedor:number;
+        numeroDocumento:number;
 }

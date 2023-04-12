@@ -1,10 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DebugUtilities = exports.MessageError = void 0;
-const http_status_1 = __importDefault(require("http-status"));
 exports.MessageError = 'ERROR: %j';
 class DebugUtilities {
     static getMessage(reason) {
@@ -22,7 +18,7 @@ class DebugUtilities {
             '000-0' : error.CodeError.toString();
         const codeStatusError = error.StatusCode === undefined ?
             500 : error.StatusCode;
-        const descStatusError = http_status_1.default[codeStatusError].toString();
+        const descStatusError = '500';
         const statusError = {
             EndDt: new Date().toISOString(),
             Status: {
