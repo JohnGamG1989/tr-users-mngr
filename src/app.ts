@@ -3,6 +3,8 @@ import actuator = require('express-actuator');
 import path from 'path';
 import config from './config';
 import UserController from './controllers/UserController';
+import BuyerController from './controllers/BuyerController';
+import SellerController from './controllers/SellerController';
 const app = express();
 const apiPath = config.apiPath;
 const fullApiPath = `${apiPath}/V1/`;
@@ -28,7 +30,5 @@ app.use(
         basePath: '/management',
     })
 );
-
-app.use(fullApiPath,UserController);
-
+app.use(fullApiPath, UserController, BuyerController, SellerController);
 export default app;

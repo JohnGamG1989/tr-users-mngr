@@ -12,16 +12,28 @@ const DebugUtilities_1 = require("../utilities/DebugUtilities");
 const UserService_1 = require("../services/UserService");
 const debug = (0, debug_1.default)('tc:UserController');
 const UserController = (0, express_1.Router)();
-UserController.get('/User/getUser/:idUser', RequestLogger_1.default.basic, async (req, res) => {
+UserController.get('/User/getUser/:uid', RequestLogger_1.default.basic, async (req, res) => {
     try {
-        const idUser = +req.params.idUser;
-        console.log('idUser', idUser);
-        const response = await UserService_1.UserService.getUser(idUser);
+        const uid = +req.params.uid;
+        console.log('idUser', uid);
+        const response = await UserService_1.UserService.getUser(uid);
         res.status(http_status_1.default.OK).send(response);
     }
     catch (err) {
         const error = DebugUtilities_1.DebugUtilities.error(err, 'Error');
         debug('ERROR: Get-User: %j', error.statusError);
+        res.status(error.codeStatusError).send(error.statusError);
+    }
+});
+//add User
+UserController.post('/User/addUser', RequestLogger_1.default.basic, async (req, res) => {
+    try {
+        const response = await UserService_1.UserService.addUser(req.body);
+        res.status(http_status_1.default.OK).send(response);
+    }
+    catch (err) {
+        const error = DebugUtilities_1.DebugUtilities.error(err, 'Error');
+        debug('ERROR: POST-CoeController: %j', error.statusError);
         res.status(error.codeStatusError).send(error.statusError);
     }
 });

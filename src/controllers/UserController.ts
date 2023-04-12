@@ -11,17 +11,33 @@ const UserController = Router();
 
 
 UserController.get(
-    '/User/getUser/:idUser',
+    '/User/getUser/:uid',
     RequestLogger.basic,
     async (req: Request, res: Response) => {
         try {
-            const idUser  = +req.params.idUser;
-            console.log('idUser',idUser)
-            const response =  await UserService.getUser(idUser);
+            const uid  = +req.params.uid;
+            console.log('idUser',uid)
+            const response =  await UserService.getUser(uid);
             res.status(HTTP_STATUS_CODES.OK).send(response);
         } catch (err) {
             const error = DebugUtilities.error(err, 'Error');
             debug('ERROR: Get-User: %j', error.statusError);
+            res.status(error.codeStatusError).send(error.statusError);
+        }
+    }
+);
+
+//add User
+UserController.post(
+    '/User/addUser',
+    RequestLogger.basic,
+    async (req: Request, res: Response) => {
+        try {
+            const response =  await UserService.addUser(req.body);
+            res.status(HTTP_STATUS_CODES.OK).send(response);
+        } catch (err) {
+            const error = DebugUtilities.error(err, 'Error');
+            debug('ERROR: POST-CoeController: %j', error.statusError);
             res.status(error.codeStatusError).send(error.statusError);
         }
     }
