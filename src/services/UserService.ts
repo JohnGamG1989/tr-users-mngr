@@ -10,7 +10,7 @@ const debug = debugLib('tc:UserService');
 
 export class UserService {
 
-    public static async getUser(uid : number): Promise<IUserResponse> {
+    public static async getUser(uid : string): Promise<IUserResponse> {
      try {
         const response =  await UserDataSource.getUser(uid);
         return Promise.resolve(response);

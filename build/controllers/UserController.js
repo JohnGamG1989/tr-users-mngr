@@ -14,8 +14,7 @@ const debug = (0, debug_1.default)('tc:UserController');
 const UserController = (0, express_1.Router)();
 UserController.get('/User/getUser/:uid', RequestLogger_1.default.basic, async (req, res) => {
     try {
-        const uid = +req.params.uid;
-        console.log('idUser', uid);
+        const uid = req.params.uid;
         const response = await UserService_1.UserService.getUser(uid);
         res.status(http_status_1.default.OK).send(response);
     }

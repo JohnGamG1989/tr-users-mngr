@@ -13,7 +13,7 @@ const debug = debugLib('tc:UserDataSource');
 export default class UserDataSource {
 
 
-    public static readonly getUser = async (uid : number): Promise<IUserResponse> => {
+    public static readonly getUser = async (uid : string): Promise<IUserResponse> => {
         debug('Start query to user database');
         try {
             const rqUid = 'test';

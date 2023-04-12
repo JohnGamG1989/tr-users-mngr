@@ -15,8 +15,7 @@ UserController.get(
     RequestLogger.basic,
     async (req: Request, res: Response) => {
         try {
-            const uid  = +req.params.uid;
-            console.log('idUser',uid)
+            const uid  = req.params.uid;
             const response =  await UserService.getUser(uid);
             res.status(HTTP_STATUS_CODES.OK).send(response);
         } catch (err) {
