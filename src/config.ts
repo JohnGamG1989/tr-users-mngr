@@ -3,7 +3,7 @@ export default {
     PORT: 8080,
     apiPath: '',
     databaseHost: '35.192.7.203',
-    databasePass: 'root',
+    databasePass: 'Pr0s3gu1r.2709*',
     databasePort: '3306',
     databaseUser: 'root',
     databesePoolAcquiere: '30000',

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     PORT: 8080,
     apiPath: '',
-    databaseHost: '34.134.59.167',
-    databasePass: 'root',
+    databaseHost: '35.192.7.203',
+    databasePass: 'Pr0s3gu1r.2709*',
     databasePort: '3306',
     databaseUser: 'root',
     databesePoolAcquiere: '30000',
