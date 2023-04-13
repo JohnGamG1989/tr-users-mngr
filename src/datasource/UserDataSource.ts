@@ -18,11 +18,29 @@ export default class UserDataSource {
         try {
             const rqUid = 'test';
             const result = await executeSQL(
-                `select usu_id as idUsuario,usu_nombre as nombre , usu_apellido as Apellido,  usu_telefonoFijo as telFijo, usu_telefonoCelular as telCelular,usu_correo as correo,usu_fechaNacimiento as fechaNacimiento,tdo_id as idTipoDocumento,usu_numeroDocumento as numeroDocumento ,tdo_descripcion as tipoDocumento,tpe_id as idTipoPersona,tpe_descripcion as tipoPersona,com_rango_busqueda as rangoBusqueda, !isnull(com_id) as PerfilComprador, !isnull(ven_id ) as PerfilVendedor from tr_data_base.usuario
+                `select
+                usu_id as idUsuario,
+                usu_UID as uid,
+                usu_nombre as nombre,
+                usu_apellido as Apellido,
+                usu_telefonoFijo as telFijo,
+                usu_telefonoCelular as telCelular,
+                usu_correo as correo,
+                usu_fechaNacimiento as fechaNacimiento,
+                tdo_id as idTipoDocumento,
+                usu_numeroDocumento as numeroDocumento,
+                tdo_descripcion as tipoDocumento,
+                tpe_id as idTipoPersona,
+                tpe_descripcion as tipoPersona,
+                com_rango_busqueda as rangoBusqueda,
+                ! isnull(com_id) as PerfilComprador,
+                ! isnull(ven_id) as PerfilVendedor
+              from
+                tr_data_base.usuario
                 left join tr_data_base.comprador on usu_id = com_usuario
                 left join tr_data_base.vendedor on usu_id = ven_usuario
                 left join tr_data_base.tipo_documento on tdo_id = usu_tipoDocumento
-                left join tr_data_base.tipo_persona on  tpe_id = usu_tipoPersona
+                left join tr_data_base.tipo_persona on tpe_id = usu_tipoPersona
                 where usu_UID = $uid;`,
                 QueryTypes.SELECT,
                 {uid}
@@ -57,7 +75,7 @@ export default class UserDataSource {
                 QueryTypes.INSERT,
                 {correo,uid}
             );
-            if (result) { 
+            if (result) {
                 console.log("resultado",result);
                  const response = {
                     operationStatus: true,
