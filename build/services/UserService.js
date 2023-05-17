@@ -28,6 +28,16 @@ class UserService {
             return Promise.reject(err);
         }
     }
+    static async updateToker(dataRequest) {
+        try {
+            const response = await UserDataSource_1.default.updateToken(dataRequest);
+            return Promise.resolve(response);
+        }
+        catch (err) {
+            debug('Error trying to insert user %s ', err);
+            return Promise.reject(err);
+        }
+    }
 }
 exports.UserService = UserService;
 //# sourceMappingURL=UserService.js.map

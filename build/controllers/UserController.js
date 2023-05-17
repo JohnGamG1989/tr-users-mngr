@@ -36,5 +36,17 @@ UserController.post('/User/addUser', RequestLogger_1.default.basic, async (req, 
         res.status(error.codeStatusError).send(error.statusError);
     }
 });
+//add User
+UserController.post('/User/updateToken', RequestLogger_1.default.basic, async (req, res) => {
+    try {
+        const response = await UserService_1.UserService.updateToker(req.body);
+        res.status(http_status_1.default.OK).send(response);
+    }
+    catch (err) {
+        const error = DebugUtilities_1.DebugUtilities.error(err, 'Error');
+        debug('ERROR: POST-CoeController: %j', error.statusError);
+        res.status(error.codeStatusError).send(error.statusError);
+    }
+});
 exports.default = UserController;
 //# sourceMappingURL=UserController.js.map

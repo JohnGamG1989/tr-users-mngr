@@ -43,4 +43,20 @@ UserController.post(
 );
 
 
+//add User
+UserController.post(
+    '/User/updateToken',
+    RequestLogger.basic,
+    async (req: Request, res: Response) => {
+        try {
+            const response =  await UserService.updateToker(req.body);
+            res.status(HTTP_STATUS_CODES.OK).send(response);
+        } catch (err) {
+            const error = DebugUtilities.error(err, 'Error');
+            debug('ERROR: POST-CoeController: %j', error.statusError);
+            res.status(error.codeStatusError).send(error.statusError);
+        }
+    }
+);
+
 export default UserController;

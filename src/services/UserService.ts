@@ -29,5 +29,15 @@ export class UserService {
          return Promise.reject(err);
       }
      }
+
+     public static async updateToker(dataRequest : any): Promise<IUserAddResponse> {
+      try {
+         const response =  await UserDataSource.updateToken(dataRequest);
+         return Promise.resolve(response);
+      } catch (err) {
+         debug('Error trying to insert user %s ', err);
+         return Promise.reject(err);
+      }
+     }
 }
 

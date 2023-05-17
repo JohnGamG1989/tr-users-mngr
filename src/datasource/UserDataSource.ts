@@ -98,6 +98,45 @@ export default class UserDataSource {
             debug(`[%s] ${MessageError}`, err);
             return Promise.reject({ Code: 'add-user', Reason: err });
         }
-    }
+    };
+
+    public static readonly updateToken = async (dataRequest : any): Promise<IUserAddResponse> => {
+        try {
+
+            const token = dataRequest.token;
+            const uid = dataRequest.uid;
+
+            const rqUid = 'test';
+            const result = await executeSQL(
+                `UPDATE tr_data_base.usuario
+                    SET usu_token = $token
+                WHERE usu_UID = $uid; `,
+                QueryTypes.UPDATE,
+                { token, uid }
+            );
+            if (result) {
+                console.log("resultado",result);
+                 const response = {
+                    operationStatus: true,
+                    operationCode: "0000",
+                    operationMessage:"operacion exitosa",
+                    idUsuario:result[0]
+                };
+                return Promise.resolve(response);
+            } else {
+                debug(`[%s] ${MessageError}`, rqUid, '404 tr_data_base'); // Ajustar el nombre de la base de datos
+                const bodyErrorSearchConfigInfo = {
+                    CodeError: 'add-user-404-DB',
+                    Reason: 'BD error tr_data_base', // Ajustar el nombre de la base de datos
+                    StatusCode: '404',
+                };
+                return Promise.reject(bodyErrorSearchConfigInfo);
+            }
+
+        } catch (err) {
+            debug(`[%s] ${MessageError}`, err);
+            return Promise.reject({ Code: 'add-user', Reason: err });
+        }
+    };
 
    }
