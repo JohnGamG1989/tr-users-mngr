@@ -28,6 +28,7 @@ class UserService {
             return Promise.reject(err);
         }
     }
+<<<<<<< HEAD
     static async getOverwriteUser(dataRequest) {
         try {
             const response = await UserDataSource_1.default.getOverwriteUser(dataRequest.nombre, dataRequest.apellido, dataRequest.telefonoCelular, dataRequest.uid);
@@ -35,6 +36,15 @@ class UserService {
         }
         catch (err) {
             debug('Error trying to obtain products types- %s ', err);
+=======
+    static async updateToker(dataRequest) {
+        try {
+            const response = await UserDataSource_1.default.updateToken(dataRequest);
+            return Promise.resolve(response);
+        }
+        catch (err) {
+            debug('Error trying to insert user %s ', err);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
             return Promise.reject(err);
         }
     }

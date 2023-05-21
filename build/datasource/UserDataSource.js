@@ -93,6 +93,7 @@ UserDataSource.addUser = async (dataRequest) => {
         return Promise.reject({ Code: 'add-user', Reason: err });
     }
 };
+<<<<<<< HEAD
 // eslint-disable-next-line max-len
 UserDataSource.getOverwriteUser = async (nombre, apellido, telefonoCelular, uid) => {
     debug('Starts the database query of the update');
@@ -109,16 +110,32 @@ UserDataSource.getOverwriteUser = async (nombre, apellido, telefonoCelular, uid)
                 usu_id = $uid`, sequelize_1.QueryTypes.UPDATE, // reemplazar la palabra select por UPDATE
         { nombre, apellido, telefonoCelular, uid });
         console.log(result);
+=======
+UserDataSource.updateToken = async (dataRequest) => {
+    try {
+        const token = dataRequest.token;
+        const uid = dataRequest.uid;
+        const rqUid = 'test';
+        const result = await (0, database_1.executeSQL)(`UPDATE tr_data_base.usuario
+                    SET usu_token = $token
+                WHERE usu_UID = $uid; `, sequelize_1.QueryTypes.UPDATE, { token, uid });
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
         if (result) {
             console.log("resultado", result);
             const response = {
                 operationStatus: true,
                 operationCode: "0000",
+<<<<<<< HEAD
                 operationMessage: "operacion exitosa"
+=======
+                operationMessage: "operacion exitosa",
+                idUsuario: result[0]
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
             };
             return Promise.resolve(response);
         }
         else {
+<<<<<<< HEAD
             debug(`${DebugUtilities_1.MessageError}`, '404 TR_DATA_BASE');
             const bodyError = {
                 CodeError: 'SELECT-SEARCH-PRODUCT-TYPES-404-DB',
@@ -126,11 +143,24 @@ UserDataSource.getOverwriteUser = async (nombre, apellido, telefonoCelular, uid)
                 StatusCode: '404',
             };
             return Promise.reject(bodyError);
+=======
+            debug(`[%s] ${DebugUtilities_1.MessageError}`, rqUid, '404 tr_data_base'); // Ajustar el nombre de la base de datos
+            const bodyErrorSearchConfigInfo = {
+                CodeError: 'add-user-404-DB',
+                Reason: 'BD error tr_data_base',
+                StatusCode: '404',
+            };
+            return Promise.reject(bodyErrorSearchConfigInfo);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
         }
     }
     catch (err) {
         debug(`[%s] ${DebugUtilities_1.MessageError}`, err);
+<<<<<<< HEAD
         return Promise.reject({ Code: 'SELECT-SEARCH-PRODUCT-TYPES', Reason: err });
+=======
+        return Promise.reject({ Code: 'add-user', Reason: err });
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
     }
 };
 //# sourceMappingURL=UserDataSource.js.map

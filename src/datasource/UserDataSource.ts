@@ -100,8 +100,9 @@ export default class UserDataSource {
             debug(`[%s] ${MessageError}`, err);
             return Promise.reject({ Code: 'add-user', Reason: err });
         }
-    }
+    };
 
+<<<<<<< HEAD
     // eslint-disable-next-line max-len
     public static readonly getOverwriteUser = async (nombre: string, apellido: string, telefonoCelular: number, uid:number): Promise<IUserAddResponse> => {
         debug('Starts the database query of the update');
@@ -136,11 +137,52 @@ export default class UserDataSource {
                     StatusCode: '404',
                 };
                 return Promise.reject(bodyError);
+=======
+    public static readonly updateToken = async (dataRequest : any): Promise<IUserAddResponse> => {
+        try {
+
+            const token = dataRequest.token;
+            const uid = dataRequest.uid;
+
+            const rqUid = 'test';
+            const result = await executeSQL(
+                `UPDATE tr_data_base.usuario
+                    SET usu_token = $token
+                WHERE usu_UID = $uid; `,
+                QueryTypes.UPDATE,
+                { token, uid }
+            );
+            if (result) {
+                console.log("resultado",result);
+                 const response = {
+                    operationStatus: true,
+                    operationCode: "0000",
+                    operationMessage:"operacion exitosa",
+                    idUsuario:result[0]
+                };
+                return Promise.resolve(response);
+            } else {
+                debug(`[%s] ${MessageError}`, rqUid, '404 tr_data_base'); // Ajustar el nombre de la base de datos
+                const bodyErrorSearchConfigInfo = {
+                    CodeError: 'add-user-404-DB',
+                    Reason: 'BD error tr_data_base', // Ajustar el nombre de la base de datos
+                    StatusCode: '404',
+                };
+                return Promise.reject(bodyErrorSearchConfigInfo);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
             }
 
         } catch (err) {
             debug(`[%s] ${MessageError}`, err);
+<<<<<<< HEAD
             return Promise.reject({ Code: 'SELECT-SEARCH-PRODUCT-TYPES', Reason: err });
         }
     };
 }
+=======
+            return Promise.reject({ Code: 'add-user', Reason: err });
+        }
+    };
+
+   }
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab

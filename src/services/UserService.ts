@@ -29,6 +29,7 @@ export class UserService {
          return Promise.reject(err);
       }
      }
+<<<<<<< HEAD
      public static async getOverwriteUser(dataRequest : IUserAddRequest): Promise<IUserAddResponse> {
       try {
          const response =  await UserDataSource.getOverwriteUser(
@@ -39,6 +40,15 @@ export class UserService {
          return Promise.resolve(response);
       } catch (err) {
          debug('Error trying to obtain products types- %s ', err);
+=======
+
+     public static async updateToker(dataRequest : any): Promise<IUserAddResponse> {
+      try {
+         const response =  await UserDataSource.updateToken(dataRequest);
+         return Promise.resolve(response);
+      } catch (err) {
+         debug('Error trying to insert user %s ', err);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
          return Promise.reject(err);
       }
      }

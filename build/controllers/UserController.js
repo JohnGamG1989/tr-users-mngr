@@ -36,15 +36,26 @@ UserController.post('/User/addUser', RequestLogger_1.default.basic, async (req, 
         res.status(error.codeStatusError).send(error.statusError);
     }
 });
+<<<<<<< HEAD
 UserController.put(// no es un get, es un put
 '/User/overwriteuser', RequestLogger_1.default.basic, async (req, res) => {
     try {
         const response = await UserService_1.UserService.getOverwriteUser(req.body);
+=======
+//add User
+UserController.post('/User/updateToken', RequestLogger_1.default.basic, async (req, res) => {
+    try {
+        const response = await UserService_1.UserService.updateToker(req.body);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
         res.status(http_status_1.default.OK).send(response);
     }
     catch (err) {
         const error = DebugUtilities_1.DebugUtilities.error(err, 'Error');
+<<<<<<< HEAD
         debug('ERROR: POST-ProductsController: %j', error.statusError);
+=======
+        debug('ERROR: POST-CoeController: %j', error.statusError);
+>>>>>>> 8308c5f4576bb53bc765f0620cccbc9850ef2fab
         res.status(error.codeStatusError).send(error.statusError);
     }
 });
