@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const debug_1 = __importDefault(require("debug"));
 const UserDataSource_1 = __importDefault(require("../datasource/UserDataSource"));
+const debug_1 = __importDefault(require("debug"));
 const debug = (0, debug_1.default)('tc:UserService');
 class UserService {
     static async getUser(uid) {
@@ -25,6 +25,16 @@ class UserService {
         }
         catch (err) {
             debug('Error trying to insert user %s ', err);
+            return Promise.reject(err);
+        }
+    }
+    static async getOverwriteUser(dataRequest) {
+        try {
+            const response = await UserDataSource_1.default.getOverwriteUser(dataRequest.nombre, dataRequest.apellido, dataRequest.telefonoCelular, dataRequest.uid);
+            return Promise.resolve(response);
+        }
+        catch (err) {
+            debug('Error trying to obtain products types- %s ', err);
             return Promise.reject(err);
         }
     }

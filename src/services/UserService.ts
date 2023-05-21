@@ -34,7 +34,8 @@ export class UserService {
          const response =  await UserDataSource.getOverwriteUser(
           dataRequest.nombre,
           dataRequest.apellido,
-          dataRequest.telefonoCelular);
+          dataRequest.telefonoCelular,
+          dataRequest.uid);
          return Promise.resolve(response);
       } catch (err) {
          debug('Error trying to obtain products types- %s ', err);

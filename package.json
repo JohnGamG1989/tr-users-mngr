@@ -4,7 +4,6 @@
   "description": "Microservice that manages the grades module.",
   "private": true,
   "main": "build/bin/www.js",
- 
   "scripts": {
     "build": "tsc",
     "deploy": "export DEBUG=bdb:* && node ./build/bin/www.js",

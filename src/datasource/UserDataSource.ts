@@ -102,16 +102,22 @@ export default class UserDataSource {
         }
     }
 
-    public static readonly getOverwriteUser = async (nombre: string, apellido: string, telefonoCelular: number): Promise<IUserAddResponse> => {
+    // eslint-disable-next-line max-len
+    public static readonly getOverwriteUser = async (nombre: string, apellido: string, telefonoCelular: number, uid:number): Promise<IUserAddResponse> => {
         debug('Starts the database query of the update');
         try {
-            let result;
             // eslint-disable-next-line max-len
-            result = await executeSQL( //El query esta mal, select solo es para traer datos, buscar como se hace un update en sql
-                `UPDATE tr_data_base.usuario
-                SET usu_apellido = "Gamboa" WHERE usu_id=1;;`,
+            const result = await executeSQL( //El query esta mal, select solo es para traer datos, buscar como se hace un update en sql
+                `UPDATE
+                tr_data_base.usuario
+              SET
+                usu_apellido = $apellido,
+                usu_nombre = $nombre,
+                usu_telefonoCelular = $telefonoCelular
+              WHERE
+                usu_id = $uid`,
                 QueryTypes.UPDATE,  // reemplazar la palabra select por UPDATE
-                { nombre, apellido, telefonoCelular }
+                { nombre, apellido, telefonoCelular, uid }
             );
             console.log(result)
             if (result) {
