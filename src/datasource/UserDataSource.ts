@@ -1,19 +1,21 @@
-import debugLib from 'debug';
-import { QueryTypes } from 'sequelize';
-import { executeSQL } from '../database/database';
-import { MessageError } from '../utilities/DebugUtilities';
-//Model
-import { IUserResponse } from '../model/Response/IUserResponse';
 import { IUserAddRequest } from '../model/Request/IUserAddRequest';
 import { IUserAddResponse } from '../model/Response/IUserAddResponse';
-
+//Model
+import { IUserResponse } from '../model/Response/IUserResponse';
+import { MessageError } from '../utilities/DebugUtilities';
+import { QueryTypes } from 'sequelize';
+import debugLib from 'debug';
+import { executeSQL } from '../database/database';
 
 const debug = debugLib('tc:UserDataSource');
 
 export default class UserDataSource {
+    static getOverwriteRange(rangoBusqueda: any, idComprador: any) {
+        throw new Error('Method not implemented.');
+    }
 
 
-    public static readonly getUser = async (uid : string): Promise<IUserResponse> => {
+    public static readonly getUser = async (uid: string): Promise<IUserResponse> => {
         debug('Start query to user database');
         try {
             const rqUid = 'test';
@@ -43,7 +45,7 @@ export default class UserDataSource {
                 left join tr_data_base.tipo_persona on tpe_id = usu_tipoPersona
                 where usu_UID = $uid;`,
                 QueryTypes.SELECT,
-                {uid}
+                { uid }
             );
             if (result) {
                 return Promise.resolve(result);
@@ -64,7 +66,7 @@ export default class UserDataSource {
     }
 
 
-    public static readonly addUser = async (dataRequest : IUserAddRequest): Promise<IUserAddResponse> => {
+    public static readonly addUser = async (dataRequest: IUserAddRequest): Promise<IUserAddResponse> => {
         try {
 
             let correo = dataRequest.correo;
@@ -73,15 +75,15 @@ export default class UserDataSource {
             const result = await executeSQL(
                 `INSERT INTO tr_data_base.usuario (usu_correo, usu_fechaCreacion, usu_activo, usu_UID) VALUES ($correo, now(), '1', $uid);`,
                 QueryTypes.INSERT,
-                {correo,uid}
+                { correo, uid }
             );
             if (result) {
-                console.log("resultado",result);
-                 const response = {
+                console.log("resultado", result);
+                const response = {
                     operationStatus: true,
                     operationCode: "0000",
-                    operationMessage:"operacion exitosa",
-                    idUsuario:result[0]
+                    operationMessage: "operacion exitosa",
+                    idUsuario: result[0]
                 };
                 return Promise.resolve(response);
             } else {
@@ -100,4 +102,39 @@ export default class UserDataSource {
         }
     }
 
-   }
+    public static readonly getOverwriteUser = async (nombre: string, apellido: string, telefonoCelular: number): Promise<IUserAddResponse> => {
+        debug('Starts the database query of the update');
+        try {
+            let result;
+            // eslint-disable-next-line max-len
+            result = await executeSQL( //El query esta mal, select solo es para traer datos, buscar como se hace un update en sql
+                `UPDATE tr_data_base.usuario
+                SET usu_apellido = "Gamboa" WHERE usu_id=1;;`,
+                QueryTypes.UPDATE,  // reemplazar la palabra select por UPDATE
+                { nombre, apellido, telefonoCelular }
+            );
+            console.log(result)
+            if (result) {
+                console.log("resultado", result);
+                const response = {
+                    operationStatus: true,
+                    operationCode: "0000",
+                    operationMessage: "operacion exitosa"
+                } as IUserAddResponse;
+                return Promise.resolve(response);
+            } else {
+                debug(`${MessageError}`, '404 TR_DATA_BASE');
+                const bodyError = {
+                    CodeError: 'SELECT-SEARCH-PRODUCT-TYPES-404-DB',
+                    Reason: 'BD error TR_DATA_BASE',
+                    StatusCode: '404',
+                };
+                return Promise.reject(bodyError);
+            }
+
+        } catch (err) {
+            debug(`[%s] ${MessageError}`, err);
+            return Promise.reject({ Code: 'SELECT-SEARCH-PRODUCT-TYPES', Reason: err });
+        }
+    };
+}

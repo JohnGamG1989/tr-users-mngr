@@ -1,10 +1,11 @@
-import debugLib from 'debug';
 import { Request, Response, Router } from 'express';
-import RequestLogger from '../utilities/RequestLogger';
-import HTTP_STATUS_CODES from 'http-status';
+
 import { DebugUtilities } from '../utilities/DebugUtilities';
+import HTTP_STATUS_CODES from 'http-status';
+import RequestLogger from '../utilities/RequestLogger';
 //Services
 import { UserService } from '../services/UserService';
+import debugLib from 'debug';
 
 const debug = debugLib('tc:UserController');
 const UserController = Router();
@@ -42,5 +43,18 @@ UserController.post(
     }
 );
 
-
+UserController.put( // no es un get, es un put
+    '/User/overwriteuser',
+    RequestLogger.basic,
+    async (req: Request, res: Response) => {
+        try {
+            const response = await UserService.getOverwriteUser(req.body);
+            res.status(HTTP_STATUS_CODES.OK).send(response);
+        } catch (err) {
+            const error = DebugUtilities.error(err, 'Error');
+            debug('ERROR: POST-ProductsController: %j', error.statusError);
+            res.status(error.codeStatusError).send(error.statusError);
+        }
+    }
+);
 export default UserController;

@@ -15,3 +15,4 @@ export interface IUserResponse {
         PerfilVendedor:number;
         numeroDocumento:number;
 }
+

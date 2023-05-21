@@ -4,7 +4,7 @@ export interface IUserAddRequest {
     tipoDocumento: number;
     numeroDocumento: string;
     telefonoFijo: string;
-    telefonoCelular: string;
+    telefonoCelular: number;
     correo: string;
     ciudad: number;
     fechaNacimiento: Date;
