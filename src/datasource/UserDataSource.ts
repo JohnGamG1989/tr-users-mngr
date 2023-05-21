@@ -139,4 +139,46 @@ export default class UserDataSource {
         }
     };
 
+        // eslint-disable-next-line max-len
+        public static readonly getOverwriteUser = async (nombre: string, apellido: string, telefonoCelular: number, uid:number): Promise<IUserAddResponse> => {
+            debug('Starts the database query of the update');
+            try {
+                // eslint-disable-next-line max-len
+                const result = await executeSQL( //El query esta mal, select solo es para traer datos, buscar como se hace un update en sql
+                    `UPDATE
+                    tr_data_base.usuario
+                  SET
+                    usu_apellido = $apellido,
+                    usu_nombre = $nombre,
+                    usu_telefonoCelular = $telefonoCelular
+                  WHERE
+                    usu_id = $uid`,
+                    QueryTypes.UPDATE,  // reemplazar la palabra select por UPDATE
+                    { nombre, apellido, telefonoCelular, uid }
+                );
+                console.log(result)
+                if (result) {
+                    console.log("resultado", result);
+                    const response = {
+                        operationStatus: true,
+                        operationCode: "0000",
+                        operationMessage: "operacion exitosa"
+                    } as IUserAddResponse;
+                    return Promise.resolve(response);
+                } else {
+                    debug(`${MessageError}`, '404 TR_DATA_BASE');
+                    const bodyError = {
+                        CodeError: 'SELECT-SEARCH-PRODUCT-TYPES-404-DB',
+                        Reason: 'BD error TR_DATA_BASE',
+                        StatusCode: '404',
+                    };
+                    return Promise.reject(bodyError);
+                }
+    
+            } catch (err) {
+                debug(`[%s] ${MessageError}`, err);
+                return Promise.reject({ Code: 'SELECT-SEARCH-PRODUCT-TYPES', Reason: err });
+            }
+        };
+
    }

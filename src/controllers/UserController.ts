@@ -59,4 +59,21 @@ UserController.post(
     }
 );
 
+
+
+UserController.put( // no es un get, es un put
+    '/User/overwriteuser',
+    RequestLogger.basic,
+    async (req: Request, res: Response) => {
+        try {
+            const response = await UserService.getOverwriteUser(req.body);
+            res.status(HTTP_STATUS_CODES.OK).send(response);
+        } catch (err) {
+            const error = DebugUtilities.error(err, 'Error');
+            debug('ERROR: POST-ProductsController: %j', error.statusError);
+            res.status(error.codeStatusError).send(error.statusError);
+        }
+    }
+);
+
 export default UserController;

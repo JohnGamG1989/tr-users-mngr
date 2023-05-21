@@ -39,5 +39,20 @@ export class UserService {
          return Promise.reject(err);
       }
      }
+
+     public static async getOverwriteUser(dataRequest : IUserAddRequest): Promise<IUserAddResponse> {
+      try {
+         const response =  await UserDataSource.getOverwriteUser(
+          dataRequest.nombre,
+          dataRequest.apellido,
+          dataRequest.telefonoCelular,
+          dataRequest.uid);
+         return Promise.resolve(response);
+      } catch (err) {
+         debug('Error trying to obtain products types- %s ', err);
+         return Promise.reject(err);
+      }
+     }
+}
 }
 
